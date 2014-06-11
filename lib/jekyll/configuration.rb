@@ -10,6 +10,7 @@ module Jekyll
       'destination'   => File.join(Dir.pwd, '_site'),
       'plugins'       => '_plugins',
       'layouts'       => '_layouts',
+      'include_source' => '_includes'
       'data_source'   =>  '_data',
       'keep_files'    => ['.git','.svn'],
       'gems'          => [],

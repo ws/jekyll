@@ -16,7 +16,7 @@ module Jekyll
       VALID_SYNTAX = /([\w-]+)\s*=\s*(?:"([^"\\]*(?:\\.[^"\\]*)*)"|'([^'\\]*(?:\\.[^'\\]*)*)'|([\w\.-]+))/
       VARIABLE_SYNTAX = /(?<variable>\{\{\s*(?<name>[\w\-\.]+)\s*(\|.*)?\}\})(?<params>.*)/
 
-      INCLUDES_DIR = '_includes'
+      INCLUDES_DIR = site.config['include_source']
 
       def initialize(tag_name, markup, tokens)
         super
