@@ -96,7 +96,7 @@ eos
 
       def render(context)
 
-        site = @context.registers[:site][:site]
+        site = context.registers[:site]
         includes_dir = site.config['include_source']
 
         dir = File.join(File.realpath(context.registers[:site].source), includes_dir)
