@@ -97,9 +97,9 @@ eos
       def render(context)
 
         site = context.registers[:site]
-        includes_dir = site.config['include_source']
+        @includes_dir = site.config['include_source']
 
-        dir = File.join(File.realpath(context.registers[:site].source), includes_dir)
+        dir = File.join(File.realpath(context.registers[:site].source), @includes_dir)
 
         file = render_variable(context) || @file
         validate_file_name(file)
@@ -115,7 +115,7 @@ eos
             partial.render!(context)
           end
         rescue => e
-          raise IncludeTagError.new e.message, File.join(includes_dir, @file)
+          raise IncludeTagError.new e.message, File.join(@includes_dir, @file)
         end
       end
 
@@ -128,7 +128,7 @@ eos
       end
 
       def path_relative_to_source(dir, path)
-        File.join(includes_dir, path.sub(Regexp.new("^#{dir}"), ""))
+        File.join(@includes_dir, path.sub(Regexp.new("^#{dir}"), ""))
       end
 
       def realpath_prefixed_with?(path, dir)
