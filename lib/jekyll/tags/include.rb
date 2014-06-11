@@ -16,8 +16,6 @@ module Jekyll
       VALID_SYNTAX = /([\w-]+)\s*=\s*(?:"([^"\\]*(?:\\.[^"\\]*)*)"|'([^'\\]*(?:\\.[^'\\]*)*)'|([\w\.-]+))/
       VARIABLE_SYNTAX = /(?<variable>\{\{\s*(?<name>[\w\-\.]+)\s*(\|.*)?\}\})(?<params>.*)/
 
-      INCLUDES_DIR = site.config['include_source']
-
       def initialize(tag_name, markup, tokens)
         super
         matched = markup.strip.match(VARIABLE_SYNTAX)
@@ -94,8 +92,14 @@ eos
         end
       end
 
+      @includes_dir
+
       def render(context)
-        dir = File.join(File.realpath(context.registers[:site].source), INCLUDES_DIR)
+
+        site = @context.registers[:site][:site]
+        includes_dir = site.config['include_source']
+
+        dir = File.join(File.realpath(context.registers[:site].source), includes_dir)
 
         file = render_variable(context) || @file
         validate_file_name(file)
@@ -111,7 +115,7 @@ eos
             partial.render!(context)
           end
         rescue => e
-          raise IncludeTagError.new e.message, File.join(INCLUDES_DIR, @file)
+          raise IncludeTagError.new e.message, File.join(includes_dir, @file)
         end
       end
 
@@ -124,7 +128,7 @@ eos
       end
 
       def path_relative_to_source(dir, path)
-        File.join(INCLUDES_DIR, path.sub(Regexp.new("^#{dir}"), ""))
+        File.join(includes_dir, path.sub(Regexp.new("^#{dir}"), ""))
       end
 
       def realpath_prefixed_with?(path, dir)
