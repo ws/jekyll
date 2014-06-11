@@ -99,12 +99,13 @@ eos
         site = context.registers[:site]
         @includes_dir = site.config['include_source']
 
-        dir = File.join(File.realpath(context.registers[:site].source), @includes_dir)
+        dir = File.expand_path(site.config['include_source'])
 
         file = render_variable(context) || @file
         validate_file_name(file)
 
         path = File.join(dir, file)
+        puts path
         validate_path(path, dir, context.registers[:site].safe)
 
         begin
